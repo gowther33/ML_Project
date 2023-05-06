@@ -4,11 +4,15 @@ Here all the data ingestion tasks will be performed
 
 import os
 import sys
+from dataclasses import dataclass # Used to create class variables
+
+from sklearn.model_selection import train_test_split
+import pandas as pd
+
 from src.exception import CustomException
 from src.logger import logging
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from dataclasses import dataclass # Used to create class variables
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import Data_TransformationConfig
 
 # Any input that is required for data ingestion will be provided by this class
 @dataclass
@@ -45,7 +49,7 @@ class DataIngestion:
             logging.info("Data Ingestion completed")
 
             # The return objects will be used for data transformation
-            return(
+            return (
                 self.ingestion_config.train_data_path,
                 self.ingestion_config.test_data_path,
             )
@@ -55,4 +59,7 @@ class DataIngestion:
 
 if __name__=="__main__":
     obj = DataIngestion()
-    obj.initiate_data_ingestion()
+    train_data, test_data = obj.initiate_data_ingestion()
+
+    data_tranformation = DataTransformation()
+    data_tranformation.initiate_data_transformation(train_data, test_data)
