@@ -3,7 +3,7 @@ Here we create our custom exceptions
 """
 
 import sys
-import logging
+from src.logger import logging
 
 # Whenever an exception occurs this message will be displayed
 def error_message_detail(error, error_details:sys):
