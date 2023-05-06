@@ -26,13 +26,33 @@ class DataIngestion:
     # Read data from data source
     def initiate_data_ingestion(self):
         logging.info("Entered the data ingestion component")
+
+        # This is a general data ingestion task we can read data from anywhere (Database, api etc)
         try:
             df = pd.read_csv('notebook\data\stud.csv')
             logging.info('Exported data into dataframe')
 
+            # dirname to get root dir
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
-            
-        except:
-            pass
+            df.to_csv(self.ingestion_config.raw_data_path, index=False, header=True)
+
+            logging.info("Train Test split initiated")
+            train_set, test_set = train_test_split(df, test_size=0.2, random_state=34)
+
+            train_set.to_csv(self.ingestion_config.train_data_path, index=False, header=True)
+            test_set.to_csv(self.ingestion_config.test_data_path, index=False, header=True)
+
+            logging.info("Data Ingestion completed")
+
+            # The return objects will be used for data transformation
+            return(
+                self.ingestion_config.train_data_path,
+                self.ingestion_config.test_data_path,
+            )
+        except Exception as E:
+            raise CustomException(E,sys)
 
 
+if __name__=="__main__":
+    obj = DataIngestion()
+    obj.initiate_data_ingestion()
