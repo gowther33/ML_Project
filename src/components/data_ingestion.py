@@ -14,6 +14,10 @@ from src.logger import logging
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import Data_TransformationConfig
 
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
+
+
 # Any input that is required for data ingestion will be provided by this class
 @dataclass
 class DataIngestionConfig:
@@ -62,4 +66,10 @@ if __name__=="__main__":
     train_data, test_data = obj.initiate_data_ingestion()
 
     data_tranformation = DataTransformation()
-    data_tranformation.initiate_data_transformation(train_data, test_data)
+    train_arr, test_arr, _ = data_tranformation.initiate_data_transformation(train_data, test_data)
+
+    # Here we will call model trainer and get best r2_score
+    model_trainer = ModelTrainer()
+    score = model_trainer.initiate_model_trainer(train_arr, test_arr)
+
+    print(f"r2_score:{score}")

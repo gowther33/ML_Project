@@ -111,6 +111,7 @@ class DataTransformation:
 
             )
 
+            # Return transformed train and test array and preprocessor object path
             return (
                 train_arr,
                 test_arr,
