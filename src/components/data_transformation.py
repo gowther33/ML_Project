@@ -19,7 +19,7 @@ class Data_TransformationConfig:
     preprocessor_obj_file_path = os.path.join('artifacts', 'preprocessor.pkl')
 
 class DataTransformation:
-    def __init__(self) -> None:
+    def __init__(self):
         self.data_transformation_config = Data_TransformationConfig()
     
     # Transformer pickle file
